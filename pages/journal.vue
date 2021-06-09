@@ -51,16 +51,19 @@
         <span class="text-gray-800">
           {{ $moment.unix(item.data.entry_date.seconds).format('DD/MM') }}</span
         >
-        <span class="font-light text-gray-800">
+        <div class="font-light text-gray-800 -mt-2">
           {{ $moment.unix(item.data.entry_date.seconds).format('YYYY') }}
-        </span>
+        </div>
       </div>
 
       <div class="text-gray-800 flex-grow p-6">
         <span v-if="edit !== index">{{ item.data.entry }}</span>
         <span v-if="edit === index">
-          <textarea :value="item.data.entry"></textarea>
-          <button @click="edit = null">cancel</button><button>Save</button>
+          <textarea
+            v-model="whatedit"
+            class="p-2 border border-gray-200 rounded"
+            cols="32"
+          ></textarea>
         </span>
       </div>
       <div class="bg-pink-200 flex-grow-0 w-9 rounded-xl rounded-l-none p-2">
@@ -68,8 +71,23 @@
         <a class="cursor-pointer" @click="deleteEntry(item.id, index)">
           <TrashIcon size="1.2x" class=""
         /></a>
-        <a v-if="edit !== index" @click="editEntry(index)"
+        <a
+          class="cursor-pointer"
+          v-if="edit !== index"
+          @click="
+            edit = index
+            whatedit = item.data.entry
+          "
           ><PencilIcon size="1.2x" class=""
+        /></a>
+        <a class="cursor-pointer" v-if="edit === index" @click="edit = null"
+          ><BanIcon size="1.2x" class="text-red-600 ring-red-600 mt-3"
+        /></a>
+        <a
+          class="cursor-pointer"
+          v-if="edit === index"
+          @click="editEntry(item.id, index)"
+          ><CheckIcon size="1.2x" class="text-green-600"
         /></a>
       </div>
     </div>
@@ -79,7 +97,7 @@
 import {
   TrashIcon,
   PencilIcon,
-  XCircleIcon,
+  //  XCircleIcon,
   BanIcon,
   CheckIcon,
 } from '@vue-hero-icons/outline'
@@ -88,7 +106,7 @@ export default {
   components: {
     TrashIcon,
     PencilIcon,
-    XCircleIcon,
+    //  XCircleIcon,
     BanIcon,
     CheckIcon,
   },
@@ -112,8 +130,18 @@ export default {
     },
   },
   methods: {
-    editEntry(index) {
-      this.edit = index
+    async editEntry(id, index) {
+      const journalRef = this.$fire.firestore.collection('journal')
+      try {
+        await journalRef.doc(id).update({
+          entry: this.whatedit,
+        })
+        this.$toast.success('Entry edited.')
+        this.edit = null
+        this.journalEntries[index].data.entry = this.whatedit
+      } catch (e) {
+        this.$toast.error('Ooops, Could not delete this entry.')
+      }
     },
     async deleteEntry(id, index) {
       const journalRef = this.$fire.firestore.collection('journal')
@@ -158,7 +186,7 @@ export default {
       const journalRef = this.$fire.firestore.collection('journal')
       // .doc('journal')
       try {
-        const snapshot = await journalRef.get()
+        const snapshot = await journalRef.orderBy('entry_date', 'desc').get()
         //  const doc = snapshot.data() //  for one doc
         const doc = snapshot.docs.map((dd) => {
           return { id: dd.id, data: dd.data() }
