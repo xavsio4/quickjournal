@@ -1,8 +1,18 @@
 <template>
-  <div>
+  <div class="container">
+    <Nav></Nav>
+
     <Nuxt />
   </div>
 </template>
+<script>
+import Nav from '~/components/Nav'
+export default {
+  components: {
+    Nav,
+  },
+}
+</script>
 
 <style>
 html {
