@@ -2,31 +2,38 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title">quickjournal</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <h1>
+        Welcome <span v-if="currentUser">{{ currentUser.displayName }}</span>
+      </h1>
+      <sign-in />
+      <div v-if="currentUser">
+        <button type="button" class="btn btn-primary" @click="signOut">
+          Sign Out
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import SignIn from '~/components/SignIn.vue'
+
+export default {
+  computed: {
+    currentUser() {
+      return this.$store.state.user
+    },
+  },
+  methods: {
+    signOut() {
+      console.log('signOut')
+      this.$fire.auth.signOut()
+    },
+  },
+  components: {
+    SignIn,
+  },
+}
 </script>
 
 <style>

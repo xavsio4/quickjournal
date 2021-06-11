@@ -1,6 +1,7 @@
 <template>
   <div class="container mx-auto">
     <!-- the form -->
+    {{ currentUser }}
     <div>
       <form
         @submit.prevent="writeToFirestore"
@@ -128,6 +129,9 @@ export default {
     year() {
       return this.ndate.getFullYear()
     },
+    currentUser() {
+      return this.$store.state.user
+    },
   },
   methods: {
     async editEntry(id, index) {
@@ -185,12 +189,14 @@ export default {
     async readFromFirestore() {
       const journalRef = this.$fire.firestore.collection('journal')
       // .doc('journal')
+      console.log('frot')
       try {
         const snapshot = await journalRef.orderBy('entry_date', 'desc').get()
         //  const doc = snapshot.data() //  for one doc
         const doc = snapshot.docs.map((dd) => {
           return { id: dd.id, data: dd.data() }
         }) //   all collection
+        console.log(doc)
         //  const doc2 = snapshot.docs.map((doc) => doc)
         if (!doc) {
           this.$toast.error('Document not there !')

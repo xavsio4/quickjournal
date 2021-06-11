@@ -11,6 +11,12 @@ export default {
   components: {
     Nav,
   },
+  methods: {
+    LogOut() {
+      localStorage.removeItem('token')
+      this.$router.push('/')
+    },
+  },
 }
 </script>
 

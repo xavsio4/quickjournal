@@ -17,7 +17,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [ { src: '~/plugins/moment_filters.js'}],
+  plugins: [{ src: '~/plugins/moment_filters.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -33,7 +33,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
     //https://github.com/nuxt-community/community-modules/tree/master/packages/toast
@@ -52,22 +52,21 @@ export default {
           appId: '1:1086066373278:web:64c458fa04dcaa86a6418f',
           measurementId: 'G-YY298JKJJJ',
         },
-        services: {
-          auth: false, // Just as example. Can be any other service.
-          firestore: true,
-        },
+        /* services: {
+          auth: {
+        //  ssr: true,
+        // it is recommended to configure either a mutation or action but you can set both
+        initialize: {
+          onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+          // onAuthStateChangedAction: 'onAuthStateChangedAction'
+        }
+      }
+    },  */
       },
     ],
   ], // modules
 
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: 'en',
-    },
-  },
-
-   //  Toast settings
+  //  Toast settings
   toast: {
     // position: 'top-center',
     duration: 1500,
@@ -82,7 +81,7 @@ export default {
     ] */
   },
 
-  auth: {
+  /* auth: {
   persistence: 'local', // default
   initialize: {
     onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
@@ -92,12 +91,23 @@ export default {
   ssr: false, // default
   emulatorPort: 9099,
   emulatorHost: 'http://localhost',
-},
+},*/
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-  
+
+ /* pwa: {
+    manifest: {
+      lang: 'en',
+    },
+    meta: false,
+    icon: false,
+    workbox: {
+      importScripts: ['/firebase-auth-sw.js'],
+      dev: true,
+    },
+  }, */
 }
