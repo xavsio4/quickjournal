@@ -1,5 +1,20 @@
 <template>
   <div class="container">
-    <h2>About this tiny app</h2>
+    <div class="grid grid-cols-1 text-left">
+      <h2 class="font-extrabold text-3xl">About this tiny app</h2>
+      <p>
+        QuickJournal is a rapid proof of concept with a super simple purpose.
+      </p>
+      <p>
+        It has been built using Google's technologies. Using this service is
+        done without any support from Fifteenpeas.
+      </p>
+      <p>
+        However, know that we are using it ourselves and that it might stay
+        there and free for long.
+      </p>
+      <p>A clear roadmap will be added as soon as possible.</p>
+      <p>Technologies used are : NUXT, Tailwind css and Firebase.</p>
+    </div>
   </div>
 </template>

@@ -3,7 +3,7 @@
   <div class="container mx-auto">
     <div class="flex justify-center px-6 my-12">
       <!-- Row -->
-      <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+      <div class="w-full xl:w-3/4 lg:w-11/12 md:w-11/12 flex">
         <!-- Col -->
         <div
           class="
@@ -25,7 +25,7 @@
             Create an Account with Google
           </h3>
           <sign-in />
-          <h3 class="pt-4 text-2xl text-center">
+          <!--  <h3 class="pt-4 text-2xl text-center">
             Create an Account with an email
           </h3>
           <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
@@ -163,7 +163,19 @@
                 Already have an account? Login!
               </a>
             </div>
-          </form>
+          </form> -->
+          <div class="text-left p-10 w-full">
+            <h2 class="font-bold">Why don't you have any other choice ?</h2>
+            <p class="text-xs">
+              This is a free and totally experimental project. You will use the
+              service without any support.
+            </p>
+            <p class="text-xs">
+              So we didn't want any complicated scheme with emails and passwords
+              and forms. It is then more simple and secure with a third party
+              like Google.
+            </p>
+          </div>
         </div>
       </div>
     </div>

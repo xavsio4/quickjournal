@@ -20,13 +20,15 @@ export default {
       new firebaseui.auth.AuthUI(this.$fire.auth)
 
     const config = {
+      signInFlow: 'redirect',
       signInOptions: [this.$fireModule.auth.GoogleAuthProvider.PROVIDER_ID],
       signInSuccessUrl: '/journal',
       // tosUrl: '/tos',
       // privacyPolicyUrl: '/privacy',
       callbacks: {
         signInSuccessWithAuthResult() {
-          console.log('signInSuccessWithAuthResult')
+          //  this.$router.push('/journal')
+          return true
         },
         uiShown() {
           console.log('uiShown')

@@ -2,15 +2,11 @@
   <div class="container">
     <div>
       <Logo />
-      <h1>
-        Welcome <span v-if="currentUser">{{ currentUser.displayName }}</span>
-      </h1>
-      <sign-in />
-      <div v-if="currentUser">
-        <button type="button" class="btn btn-primary" @click="signOut">
-          Sign Out
-        </button>
-      </div>
+      <h1 class="title">A fast way, PWA ready, to record your day</h1>
+      <h2>
+        This is a project with no user support. But we are using it for real.
+      </h2>
+      <h3 class="subtitle">So it might stay there for a moment.</h3>
     </div>
   </div>
 </template>
@@ -52,8 +48,6 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

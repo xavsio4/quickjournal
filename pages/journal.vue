@@ -1,11 +1,10 @@
 <template>
-  <div class="container mx-auto">
+  <div class="flex-col">
     <!-- the form -->
-    {{ currentUser }}
     <div>
       <form
         @submit.prevent="writeToFirestore"
-        class="rounded-xl flex shadow mx-auto p-4 mt-2 mb-2 space-x-2 max-w-md"
+        class="rounded-xl flex shadow mx-auto mt-4 p-4 mb-2 space-x-2 max-w-md"
       >
         {{ today }}
         <textarea
@@ -40,8 +39,9 @@
         bg-white
         rounded-xl
         shadow-md
-        flex flex-row flex-initial
+        flex flex-initial
         mb-1
+        w-md
       "
       v-for="(item, index) in journalEntries"
       :key="item.id"
@@ -58,7 +58,7 @@
       </div>
 
       <div class="text-gray-800 flex-grow p-6">
-        <span v-if="edit !== index">{{ item.data.entry }}</span>
+        {{ item.data.entry }}
         <span v-if="edit === index">
           <textarea
             v-model="whatedit"
@@ -104,6 +104,7 @@ import {
 } from '@vue-hero-icons/outline'
 
 export default {
+  middleware: 'authenticated',
   components: {
     TrashIcon,
     PencilIcon,
@@ -135,7 +136,10 @@ export default {
   },
   methods: {
     async editEntry(id, index) {
-      const journalRef = this.$fire.firestore.collection('journal')
+      const journalRef = this.$fire.firestore
+        .collection('users')
+        .doc(this.currentUser.uid)
+        .collection('journal')
       try {
         await journalRef.doc(id).update({
           entry: this.whatedit,
@@ -148,7 +152,10 @@ export default {
       }
     },
     async deleteEntry(id, index) {
-      const journalRef = this.$fire.firestore.collection('journal')
+      const journalRef = this.$fire.firestore
+        .collection('users')
+        .doc(this.currentUser.uid)
+        .collection('journal')
       try {
         await journalRef.doc(id).delete()
         this.journalEntries.splice(index, 1)
@@ -158,7 +165,10 @@ export default {
       }
     },
     async writeToFirestore() {
-      const journalRef = this.$fire.firestore.collection('journal')
+      const journalRef = this.$fire.firestore
+        .collection('users')
+        .doc(this.currentUser.uid)
+        .collection('journal')
       // .doc('journal') // if add
       try {
         await journalRef.add({
@@ -166,6 +176,7 @@ export default {
           entry: this.what,
           entry_date: this.ndate,
           entry_type: 'work',
+          uid: this.currentUser.uid,
         })
       } catch (e) {
         this.$toast.error('Ooops, something went wrong ...like...' + e)
@@ -187,16 +198,17 @@ export default {
       this.what = null
     },
     async readFromFirestore() {
-      const journalRef = this.$fire.firestore.collection('journal')
+      const journalRef = this.$fire.firestore
+        .collection('users')
+        .doc(this.currentUser.uid)
+        .collection('journal')
       // .doc('journal')
-      console.log('frot')
       try {
         const snapshot = await journalRef.orderBy('entry_date', 'desc').get()
         //  const doc = snapshot.data() //  for one doc
         const doc = snapshot.docs.map((dd) => {
           return { id: dd.id, data: dd.data() }
         }) //   all collection
-        console.log(doc)
         //  const doc2 = snapshot.docs.map((doc) => doc)
         if (!doc) {
           this.$toast.error('Document not there !')

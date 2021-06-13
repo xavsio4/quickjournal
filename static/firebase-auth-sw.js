@@ -1,12 +1,20 @@
-const ignorePaths = ["\u002F__webpack_hmr","\u002F_loading","\u002F_nuxt\u002F"]
+const ignorePaths = [
+  '\u002F__webpack_hmr',
+  '\u002F_loading',
+  '\u002F_nuxt\u002F',
+]
 
-importScripts(
-  'https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js'
-)
-importScripts(
-  'https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js'
-)
-firebase.initializeApp({"apiKey":"AIzaSyCQI-iho1P0duSOMnQi2S725TFPVwlSNiQ","authDomain":"quickjournal-1fcca.firebaseapp.com","projectId":"quickjournal-1fcca","storageBucket":"quickjournal-1fcca.appspot.com","messagingSenderId":"1086066373278","appId":"1:1086066373278:web:64c458fa04dcaa86a6418f","measurementId":"G-YY298JKJJJ"})
+importScripts('https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js')
+importScripts('https://www.gstatic.com/firebasejs/8.6.7/firebase-auth.js')
+firebase.initializeApp({
+  apiKey: 'AIzaSyCQI-iho1P0duSOMnQi2S725TFPVwlSNiQ',
+  authDomain: 'quickjournal-1fcca.firebaseapp.com',
+  projectId: 'quickjournal-1fcca',
+  storageBucket: 'quickjournal-1fcca.appspot.com',
+  messagingSenderId: '1086066373278',
+  appId: '1:1086066373278:web:64c458fa04dcaa86a6418f',
+  measurementId: 'G-YY298JKJJJ',
+})
 
 // Initialize authService
 const authService = firebase.auth()
@@ -22,11 +30,14 @@ const getIdToken = () => {
       unsubscribe()
       if (user) {
         // force token refresh as it might be used to sign in server side
-        user.getIdToken(true).then((idToken) => {
-          resolve(idToken)
-        }, () => {
-          resolve(null)
-        })
+        user.getIdToken(true).then(
+          (idToken) => {
+            resolve(idToken)
+          },
+          () => {
+            resolve(null)
+          }
+        )
       } else {
         resolve(null)
       }
@@ -50,7 +61,7 @@ const fetchWithAuthorization = async (original, idToken) => {
     ...props,
     mode: 'same-origin',
     redirect: 'manual',
-    headers
+    headers,
   })
 
   return fetch(authorized)
@@ -62,9 +73,12 @@ self.addEventListener('fetch', (event) => {
   const expectsHTML = event.request.headers.get('accept').includes('text/html')
 
   const isSameOrigin = self.location.origin === url.origin
-  const isHttps = (self.location.protocol === 'https:' || self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1')
+  const isHttps =
+    self.location.protocol === 'https:' ||
+    self.location.hostname === 'localhost' ||
+    self.location.hostname === '127.0.0.1'
 
-  const isIgnored = ignorePaths.some(path => {
+  const isIgnored = ignorePaths.some((path) => {
     if (typeof path === 'string') {
       return url.pathname.startsWith(path)
     }
@@ -82,18 +96,20 @@ self.addEventListener('fetch', (event) => {
   // This can also be integrated with existing logic to serve cached files
   // in offline mode.
   event.respondWith(
-    getIdToken().then(
-      idToken => idToken
-        // if the token was retrieved we attempt an authorized fetch
-        // if anything goes wrong we fall back to the original request
-        ? fetchWithAuthorization(event.request, idToken).catch(() => fetch(event.request))
-        // otherwise we return a fetch of the original request directly
-        : fetch(event.request)
+    getIdToken().then((idToken) =>
+      idToken
+        ? // if the token was retrieved we attempt an authorized fetch
+          // if anything goes wrong we fall back to the original request
+          fetchWithAuthorization(event.request, idToken).catch(() =>
+            fetch(event.request)
+          )
+        : // otherwise we return a fetch of the original request directly
+          fetch(event.request)
     )
   )
 })
 
 // In service worker script.
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(clients.claim())
 })

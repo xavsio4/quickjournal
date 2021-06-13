@@ -2,6 +2,13 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  // loading indicator
+  loadingIndicator: {
+    name: 'circle',
+    color: '#FDD8E2',
+    background: 'white',
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'quickjournal',
@@ -18,6 +25,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/moment_filters.js' }],
+
+  /* router: {
+    middleware: 'router-auth',
+  }, */
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -40,31 +51,50 @@ export default {
     '@nuxtjs/toast',
     '@nuxtjs/moment',
     // https://firebase.nuxtjs.org/
-    [
-      '@nuxtjs/firebase',
-      {
-        config: {
-          apiKey: 'AIzaSyCQI-iho1P0duSOMnQi2S725TFPVwlSNiQ',
-          authDomain: 'quickjournal-1fcca.firebaseapp.com',
-          projectId: 'quickjournal-1fcca',
-          storageBucket: 'quickjournal-1fcca.appspot.com',
-          messagingSenderId: '1086066373278',
-          appId: '1:1086066373278:web:64c458fa04dcaa86a6418f',
-          measurementId: 'G-YY298JKJJJ',
-        },
-        /* services: {
-          auth: {
-        //  ssr: true,
-        // it is recommended to configure either a mutation or action but you can set both
+    '@nuxtjs/firebase',
+  ], // modules
+
+  firebase: {
+    config: {
+      apiKey: process.env.FIREBASE_API_KEY,
+      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.FIREBASE_APP_ID,
+      measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+    },
+    services: {
+      firestore: true,
+      auth: {
+        persistence: 'local', // default
         initialize: {
           onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-          // onAuthStateChangedAction: 'onAuthStateChangedAction'
-        }
-      }
-    },  */
+          onAuthStateChangedAction: 'onAuthStateChangedAction',
+        },
+        ssr: false, // default
       },
-    ],
-  ], // modules
+      storage: true,
+    },
+  },
+
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    meta: false,
+    icon: false,
+    manifest: {
+      lang: 'en',
+    },
+    workbox: {
+      importScripts: [
+        // ...
+        '/firebase-auth-sw.js',
+      ],
+      // by default the workbox module will not install the service worker in dev environment to avoid conflicts with HMR
+      // only set this true for testing and remember to always clear your browser cache in development
+      dev: process.env.NODE_ENV === 'development',
+    },
+  },
 
   //  Toast settings
   toast: {
@@ -82,32 +112,20 @@ export default {
   },
 
   /* auth: {
-  persistence: 'local', // default
-  initialize: {
-    onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-    onAuthStateChangedAction: 'onAuthStateChangedAction',
-    subscribeManually: false
-  },
-  ssr: false, // default
-  emulatorPort: 9099,
-  emulatorHost: 'http://localhost',
-},*/
+    persistence: 'local', // default
+    initialize: {
+      onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+      onAuthStateChangedAction: 'onAuthStateChangedAction',
+      subscribeManually: false,
+    },
+    ssr: false, // default
+    emulatorPort: 9099,
+    emulatorHost: 'http://localhost',
+  }, */
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-
- /* pwa: {
-    manifest: {
-      lang: 'en',
-    },
-    meta: false,
-    icon: false,
-    workbox: {
-      importScripts: ['/firebase-auth-sw.js'],
-      dev: true,
-    },
-  }, */
 }

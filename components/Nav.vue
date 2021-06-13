@@ -1,86 +1,193 @@
 <template>
-  <header class="text-gray-600 body-font">
-    <div
-      class="
-        container
-        mx-auto
-        flex flex-wrap
-        p-5
-        flex-col
-        md:flex-row
-        items-center
-      "
-    >
-      <a
+  <nav class="flex items-center justify-between flex-wrap bg-teal-400 p-6">
+    <div class="flex items-center flex-no-shrink text-white mr-6">
+      <NuxtLink to="/">
+        <svg
+          class="fill-current h-10 w-17 mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 356.52174 61.73913"
+        >
+          <defs>
+            <style>
+              .e031dedf-9a3d-458c-abdd-7963735826fc {
+                fill: #fff27b;
+              }
+              .e5361adc-9bc3-44ab-980c-5643b5c1f5f6 {
+                font-size: 47.04035px;
+                fill: #8ab6c1;
+                font-family: Gastromond-Regular, Gastromond;
+              }
+            </style>
+          </defs>
+          <g id="fe927b13-0736-45de-aa7e-f51baa4e6eb4" data-name="Layer 2">
+            <g id="adf3534c-50c4-4366-840a-e6cc5c8bb042" data-name="Layer 1">
+              <rect
+                class="e031dedf-9a3d-458c-abdd-7963735826fc"
+                width="356.52174"
+                height="61.73913"
+                rx="18.15742"
+              />
+              <text
+                class="e5361adc-9bc3-44ab-980c-5643b5c1f5f6"
+                transform="translate(5.21816 46.07116)"
+              >
+                QuickJournal
+              </text>
+            </g>
+          </g>
+        </svg>
+      </NuxtLink>
+      <span class="font-semibold text-xl tracking-tight"></span>
+    </div>
+    <div class="block sm:hidden">
+      <button
+        @click="toggle"
         class="
           flex
-          title-font
-          font-medium
           items-center
-          text-gray-900
-          mb-4
-          md:mb-0
+          px-3
+          py-2
+          border
+          rounded
+          text-teal-lighter
+          border-teal-light
+          hover:text-white hover:border-white
         "
       >
         <svg
+          class="fill-current h-3 w-3"
+          viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-          viewBox="0 0 24 24"
         >
-          <path
-            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-          ></path>
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
-        <span class="ml-3 text-xl">QuickJournal</span>
-      </a>
-      <nav
-        class="
-          md:ml-auto md:mr-auto
-          flex flex-wrap
-          items-center
-          text-base
-          justify-center
-        "
-      >
-        <NuxtLink to="/about" class="mr-5 hover:text-gray-900"
-          >About it</NuxtLink
-        >
-      </nav>
-      <NuxtLink to="login">
-        <Button
-          class="
-            inline-flex
-            items-center
-            bg-gray-100
-            border-0
-            py-1
-            px-3
-            focus:outline-none
-            hover:bg-gray-200
-            rounded
-            text-base
-            mt-4
-            md:mt-0
-          "
-          >Sign in
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            class="w-4 h-4 ml-1"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </Button>
-      </NuxtLink>
+      </button>
     </div>
-  </header>
+    <div
+      :class="open ? 'block' : 'hidden'"
+      class="w-full flex-grow sm:flex sm:items-center sm:w-auto"
+    >
+      <div class="text-sm sm:flex-grow">
+        <NuxtLink
+          to="/about"
+          class="
+            no-underline
+            block
+            mt-4
+            sm:inline-block sm:mt-0
+            text-teal-lighter
+            hover:text-white
+            mr-4
+          "
+        >
+          About
+        </NuxtLink>
+        <NuxtLink
+          v-if="currentUser"
+          to="/journal"
+          class="
+            no-underline
+            block
+            mt-4
+            sm:inline-block sm:mt-0
+            text-teal-lighter
+            hover:text-white
+            mr-4
+          "
+          >your journal</NuxtLink
+        >
+        <NuxtLink
+          v-if="!currentUser"
+          to="/register"
+          class="
+            no-underline
+            block
+            mt-4
+            sm:inline-block sm:mt-0
+            text-teal-lighter
+            hover:text-white
+            mr-4
+          "
+        >
+          Register
+        </NuxtLink>
+        <a
+          v-if="currentUser"
+          @click="signOut"
+          class="
+            cursor-pointer
+            inline-block
+            px-4
+            py-2
+            border
+            rounded
+            text-white
+            border-white
+            no-underline
+            block
+            mt-4
+            sm:inline-block sm:mt-0
+            text-teal-lighter
+            hover:text-teal-200 hover:border-teal-200
+          "
+        >
+          Signout
+        </a>
+      </div>
+      <div>
+        <NuxtLink
+          v-if="!currentUser"
+          to="/login"
+          class="
+            no-underline
+            inline-block
+            text-sm
+            px-4
+            py-2
+            leading-none
+            border
+            rounded
+            text-white
+            border-white
+            hover:border-teal-200 hover:text-teal-200
+            mt-4
+            sm:mt-0
+          "
+          >Login</NuxtLink
+        >
+      </div>
+    </div>
+  </nav>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      open: false,
+    }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.user
+    },
+  },
+  methods: {
+    signOut() {
+      this.$toast.success('Ok Bye !')
+      this.$fire.auth.signOut()
+      this.$router.push('/')
+    },
+    toggle() {
+      this.open = !this.open
+    },
+  },
+}
+</script>
+<style>
+.nuxt-link-active {
+  font-weight: bolder;
+  text-decoration: underline;
+  color: white;
+}
+</style>

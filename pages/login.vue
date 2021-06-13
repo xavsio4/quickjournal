@@ -1,8 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container flex flex-row">
+    <h2 class="text-bold block w-full">Login</h2>
     <form @submit="signIn" class="max-w-md mx-auto bg-white p-4 shadow rounded">
       <div class="relative mb-3">
-        <span class="ml-2 bg-white px-2 absolute -top-3 text-sm">Email</span>
+        <!--  <span class="ml-2 bg-white px-2 absolute -top-3 text-sm">Email</span>
         <input
           class="transition duration-500 border h-12 rounded w-full px-2 mb-2"
           type="text"
@@ -45,13 +46,24 @@
           Don't have an account yet ?
         </a>
       </div>
-      <div>
-        <button class="bg-gray-200 py-2 px-4 rounded" type="submit">
+      <div> -->
+        <!--  <button class="bg-gray-200 py-2 px-4 rounded" type="submit">
           Login
-        </button>
-        or signIn with <sign-in />
+        </button> -->
+        signIn with <sign-in />
       </div>
     </form>
+    <div class="text-left p-10 w-full">
+      <h2 class="font-bold">Why don't you have any other choice ?</h2>
+      <p class="text-xs">
+        This is a free and totally experimental project. You will use the
+        service without any support.
+      </p>
+      <p class="text-xs">
+        So we didn't want any complicated scheme with emails and passwords and
+        forms. It is then more simple and secure with a third party like Google.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -71,7 +83,12 @@ export default {
     async signIn() {
       try {
         const { email, password } = this.login
-        await this.$fireAuth.signInWithEmailAndPassword(email, password)
+        await this.$fireAuth
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            this.$toast.success('Yeaaaah, you are in !...waaaait for it...')
+            this.$router.push('/journal')
+          })
       } catch (error) {
         console.log(error)
         this.$toast.error(error)
