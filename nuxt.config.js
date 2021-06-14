@@ -26,10 +26,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/moment_filters.js' }],
 
-  /* router: {
-    middleware: 'router-auth',
-  }, */
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -99,7 +95,7 @@ export default {
   //  Toast settings
   toast: {
     // position: 'top-center',
-    duration: 1500,
+    duration: 1700,
     /*  register: [ // Register custom toasts
        {
          name: 'my-error',

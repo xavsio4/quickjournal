@@ -3,18 +3,35 @@
     <!-- the form -->
     <div>
       <form
+        class="
+          rounded-xl
+          flex
+          relative
+          shadow
+          mx-auto
+          mt-4
+          p-4
+          mb-2
+          space-x-2
+          max-w-lg
+        "
         @submit.prevent="writeToFirestore"
-        class="rounded-xl flex shadow mx-auto mt-4 p-4 mb-2 space-x-2 max-w-md"
       >
-        {{ today }}
-        <textarea
-          v-model="what"
-          class="p-1 ml-3 shadow rounded"
-          cols="40"
-          row="2"
-          placeholder="What did you do today ?"
-          @keyup.enter="writeToFirestore"
-        ></textarea>
+        <div class="relative">
+          <label class="ml-2 bg-white px-2 absolute -top-5 text-sm">When</label>
+          <date-picker v-model="entry_date" type="date"></date-picker>
+        </div>
+        <div class="relative">
+          <label class="ml-2 bg-white px-2 absolute -top-3 text-sm">What</label>
+          <textarea
+            v-model="what"
+            class="p-1 ml-3 shadow rounded"
+            cols="30"
+            row="2"
+            placeholder="What did you do today ?"
+            @keyup.enter="writeToFirestore"
+          ></textarea>
+        </div>
         <input
           class="
             py-1
@@ -23,7 +40,7 @@
             shadow
             font-semibold
             text-white
-            bg-green-500
+            bg-green-300
             hover:bg-green-400
           "
           type="submit"
@@ -33,6 +50,9 @@
     </div>
     <!-- list -->
     <div
+      v-for="(item, index) in journalEntries"
+      :key="item.id"
+      :index="index"
       class="
         max-w-sm
         mx-auto
@@ -43,9 +63,6 @@
         mb-1
         w-md
       "
-      v-for="(item, index) in journalEntries"
-      :key="item.id"
-      :index="index"
     >
       <!-- Here goes the list of done things -->
       <div class="w-14 p-6">
@@ -60,6 +77,7 @@
       <div class="text-gray-800 flex-grow p-6">
         {{ item.data.entry }}
         <span v-if="edit === index">
+          <date-picker v-model="edit_date" type="date"></date-picker>
           <textarea
             v-model="whatedit"
             class="p-2 border border-gray-200 rounded"
@@ -78,15 +96,18 @@
           @click="
             edit = index
             whatedit = item.data.entry
+            edit_date = new Date(
+              $moment.unix(item.data.entry_date.seconds).format('YYYY-MM-DD')
+            )
           "
           ><PencilIcon size="1.2x" class=""
         /></a>
-        <a class="cursor-pointer" v-if="edit === index" @click="edit = null"
+        <a v-if="edit === index" class="cursor-pointer" @click="edit = null"
           ><BanIcon size="1.2x" class="text-red-600 ring-red-600 mt-3"
         /></a>
         <a
-          class="cursor-pointer"
           v-if="edit === index"
+          class="cursor-pointer"
           @click="editEntry(item.id, index)"
           ><CheckIcon size="1.2x" class="text-green-600"
         /></a>
@@ -102,21 +123,26 @@ import {
   BanIcon,
   CheckIcon,
 } from '@vue-hero-icons/outline'
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
 
 export default {
-  middleware: 'authenticated',
   components: {
     TrashIcon,
     PencilIcon,
     //  XCircleIcon,
     BanIcon,
     CheckIcon,
+    DatePicker,
   },
+  middleware: 'authenticated',
   data() {
     return {
       what: null,
       whatedit: null,
+      edit_date: null,
       ndate: new Date(),
+      entry_date: new Date(),
       undate: Math.round(new Date().getTime() / 1000),
       journalEntries: [],
       docEntries: [],
@@ -143,12 +169,16 @@ export default {
       try {
         await journalRef.doc(id).update({
           entry: this.whatedit,
+          entry_date: this.edit_date,
         })
         this.$toast.success('Entry edited.')
         this.edit = null
         this.journalEntries[index].data.entry = this.whatedit
+        this.journalEntries[index].data.entry_date.seconds = Math.round(
+          this.edit_date.getTime() / 1000
+        )
       } catch (e) {
-        this.$toast.error('Ooops, Could not delete this entry.')
+        this.$toast.error('Sorry,Could not update this entry...' + e)
       }
     },
     async deleteEntry(id, index) {
@@ -165,29 +195,35 @@ export default {
       }
     },
     async writeToFirestore() {
+      let docRef = null //  to save the recently added ref
       const journalRef = this.$fire.firestore
         .collection('users')
         .doc(this.currentUser.uid)
         .collection('journal')
       // .doc('journal') // if add
       try {
-        await journalRef.add({
-          //   set to replace and add to add
-          entry: this.what,
-          entry_date: this.ndate,
-          entry_type: 'work',
-          uid: this.currentUser.uid,
-        })
+        await journalRef
+          .add({
+            //   set to replace and add to add
+            entry: this.what,
+            entry_date: this.entry_date,
+            entry_type: 'work',
+            uid: this.currentUser.uid,
+          })
+          .then(function (docid) {
+            docRef = docid.id
+          })
       } catch (e) {
         this.$toast.error('Ooops, something went wrong ...like...' + e)
         return
       }
 
       this.journalEntries.unshift({
-        id: journalRef.id,
+        id: docRef,
         data: {
           entry: this.what,
-          entry_date: { seconds: Math.round(new Date().getTime() / 1000) },
+          entry_date: { seconds: Math.round(this.entry_date.getTime() / 1000) },
+          // entry_date: this.entry_date,
           entry_type: 'work',
         },
       })
