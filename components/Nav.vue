@@ -1,9 +1,9 @@
 <template>
-  <nav class="flex items-center justify-between flex-wrap bg-teal-400 p-6">
+  <nav class="flex items-center justify-between flex-wrap bg-pink-200 p-6">
     <div class="flex items-center flex-no-shrink text-white mr-6">
       <NuxtLink to="/">
         <svg
-          class="fill-current h-10 w-17 mr-2"
+          class="h-10 w-17 mr-2"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 356.52174 61.73913"
         >
