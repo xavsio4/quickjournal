@@ -1,7 +1,7 @@
 <template>
   <div class="container flex flex-row">
     <h2 class="text-bold block w-full">Login</h2>
-    <form @submit="signIn" class="max-w-md mx-auto bg-white p-4 shadow rounded">
+    <form @submit="loginm" class="max-w-md mx-auto bg-white p-4 shadow rounded">
       <div class="relative mb-3">
         <!--  <span class="ml-2 bg-white px-2 absolute -top-3 text-sm">Email</span>
         <input
@@ -80,7 +80,7 @@ export default {
     }
   },
   methods: {
-    async signIn() {
+    async loginm() {
       try {
         const { email, password } = this.login
         await this.$fireAuth

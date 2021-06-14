@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Coustard';
+  src: local('Coustard'),
+    url(~assets/Coustard/Coustard-Regular.ttf) format('truetype');
+}
+
+html {
+  font-family: 'Coustard';
+}

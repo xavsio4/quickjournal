@@ -21,7 +21,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~assets/custom.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/moment_filters.js' }],
@@ -77,9 +77,19 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     meta: false,
+    /*  meta: {
+      mobileApp: true,
+      mobileAppIOS: true,
+      appleStatusBarStyle: 'default',
+      description: 'Record your days easily',
+      nativeUI: true,
+    },  */
     icon: false,
     manifest: {
       lang: 'en',
+      name: 'QuickJournal',
+      short_name: 'QuickJournal',
+      display: 'standalone',
     },
     workbox: {
       importScripts: [

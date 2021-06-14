@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-col">
+  <div class="flex-col pb-6">
     <!-- the form -->
     <div>
       <form
