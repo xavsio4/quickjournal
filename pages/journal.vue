@@ -4,9 +4,10 @@
     <div>
       <form
         class="
+          items-center
           rounded-xl
-          flex flex-row
-          sm:flew-row
+          flex flex-col
+          sm:flex-row
           relative
           shadow
           mx-auto
@@ -20,7 +21,11 @@
       >
         <div class="relative">
           <label class="bg-white px-2 absolute -top-5 text-sm">When</label>
-          <date-picker v-model="entry_date" type="date"></date-picker>
+          <date-picker
+            class="mb-3"
+            v-model="entry_date"
+            type="date"
+          ></date-picker>
         </div>
         <div class="relative">
           <label class="ml-2 bg-white px-2 absolute -top-3 text-sm">What</label>
@@ -87,8 +92,11 @@
       </div>
       <div class="bg-pink-200 flex-grow-0 w-9 rounded-xl rounded-l-none p-2">
         <!-- {{ item.entry_type }} -->
-        <a class="cursor-pointer" @click="deleteEntry(item.id, index)">
-          <TrashIcon size="1.2x" class=""
+        <a
+          class="cursor-pointer text-red-400"
+          @click="deleteEntry(item.id, index)"
+        >
+          <TrashIcon size="1.4x" class="mb-4"
         /></a>
         <a
           class="cursor-pointer"
@@ -100,7 +108,7 @@
               $moment.unix(item.data.entry_date.seconds).format('YYYY-MM-DD')
             )
           "
-          ><PencilIcon size="1.2x" class=""
+          ><PencilIcon size="1.4x" class=""
         /></a>
         <a v-if="edit === index" class="cursor-pointer" @click="edit = null"
           ><BanIcon size="1.2x" class="text-red-600 ring-red-600 mt-3"

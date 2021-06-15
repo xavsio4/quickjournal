@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="grid grid-cols-1 text-left">
+    <div class="grid grid-cols-1 text-left p-4">
       <h2 class="font-extrabold text-3xl">About this tiny app</h2>
       <p class="mb-2">
         QuickJournal is a rapid proof of concept with a super simple purpose.
