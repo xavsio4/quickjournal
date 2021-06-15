@@ -5,37 +5,37 @@
       <form
         class="
           rounded-xl
-          flex
+          flex flex-row
+          sm:flew-row
           relative
           shadow
           mx-auto
           mt-4
           p-4
           mb-2
-          space-x-2
-          max-w-lg
+          space-x-3
+          max-w-xl
         "
         @submit.prevent="writeToFirestore"
       >
         <div class="relative">
-          <label class="ml-2 bg-white px-2 absolute -top-5 text-sm">When</label>
+          <label class="bg-white px-2 absolute -top-5 text-sm">When</label>
           <date-picker v-model="entry_date" type="date"></date-picker>
         </div>
         <div class="relative">
           <label class="ml-2 bg-white px-2 absolute -top-3 text-sm">What</label>
           <textarea
             v-model="what"
-            class="p-1 ml-3 shadow rounded"
-            cols="30"
+            class="resize p-1 shadow rounded"
             row="2"
+            cols="26"
             placeholder="What did you do today ?"
             @keyup.enter="writeToFirestore"
           ></textarea>
         </div>
         <input
           class="
-            py-1
-            px-3
+            px-2
             rounded
             shadow
             font-semibold

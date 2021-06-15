@@ -122,14 +122,11 @@
             py-2
             border
             rounded
-            text-white
-            border-white
             no-underline
             block
             mt-4
             sm:inline-block sm:mt-0
-            text-teal-lighter
-            hover:text-teal-200 hover:border-teal-200
+            hover:text-white hover:border-white
           "
         >
           Signout
@@ -148,9 +145,7 @@
             leading-none
             border
             rounded
-            text-white
-            border-white
-            hover:border-teal-200 hover:text-teal-200
+            hover:border-white hover:text-white
             mt-4
             sm:mt-0
           "

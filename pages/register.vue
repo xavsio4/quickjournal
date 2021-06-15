@@ -165,7 +165,9 @@
             </div>
           </form> -->
           <div class="text-left p-10 w-full">
-            <h2 class="font-bold">Why don't you have any other choice ?</h2>
+            <h2 class="font-bold">
+              Why don't you have any other choice to register ?
+            </h2>
             <p class="text-xs">
               This is a free and totally experimental project. You will use the
               service without any support.
@@ -196,6 +198,7 @@ export default {
       },
     }
   },
+  middleware: 'authenticated',
   methods: {
     async createUser() {
       if (this.user.email && this.user.password) {

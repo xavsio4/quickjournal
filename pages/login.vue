@@ -1,8 +1,8 @@
 <template>
-  <div class="container flex flex-row">
-    <h2 class="text-bold block w-full">Login</h2>
-    <form @submit="loginm" class="max-w-md mx-auto bg-white p-4 shadow rounded">
-      <div class="relative mb-3">
+  <div class="container flex flex-col p-6">
+    <h2 class="text-xl">Login</h2>
+    <form class="max-w-md mx-auto bg-white p-4 shadow rounded" @submit="loginm">
+      <div class="mb-3">
         <!--  <span class="ml-2 bg-white px-2 absolute -top-3 text-sm">Email</span>
         <input
           class="transition duration-500 border h-12 rounded w-full px-2 mb-2"
@@ -50,11 +50,11 @@
         <!--  <button class="bg-gray-200 py-2 px-4 rounded" type="submit">
           Login
         </button> -->
-        signIn with <sign-in />
+        <sign-in />
       </div>
     </form>
     <div class="text-left p-10 w-full">
-      <h2 class="font-bold">Why don't you have any other choice ?</h2>
+      <h2 class="font-bold">Why don't you have any other choice to login ?</h2>
       <p class="text-xs">
         This is a free and totally experimental project. You will use the
         service without any support.
@@ -74,6 +74,7 @@ export default {
   components: {
     SignIn,
   },
+  middleware: 'authenticated',
   data() {
     return {
       login: {},
