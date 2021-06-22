@@ -74,7 +74,7 @@ export default {
   components: {
     SignIn,
   },
-  // middleware: 'authenticated',
+  middleware: 'authenticated',
   data() {
     return {
       login: {},
