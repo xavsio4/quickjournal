@@ -78,7 +78,7 @@ export default {
   pwa: {
     // meta: false,
     meta: {
-      mobileApp: true,
+      // mobileApp: true,
       // mobileAppIOS: true,
       // appleStatusBarStyle: 'default',
       description: 'Record your days easily',
