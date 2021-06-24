@@ -35,6 +35,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxt/image',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,6 +49,7 @@ export default {
     '@nuxtjs/moment',
     // https://firebase.nuxtjs.org/
     '@nuxtjs/firebase',
+    '@nuxt/image',
   ], // modules
 
   firebase: {
@@ -76,14 +78,14 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    // meta: false,
-    meta: {
+    meta: false,
+    /* meta: {
       // mobileApp: true,
       // mobileAppIOS: true,
       // appleStatusBarStyle: 'default',
-      description: 'Record your days easily',
+      // description: 'Record your days easily',
       // nativeUI: true,
-    },
+    }, */
     icon: false,
     manifest: {
       lang: 'en',

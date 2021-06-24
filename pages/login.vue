@@ -63,6 +63,10 @@
         So we didn't want any complicated scheme with emails and passwords and
         forms. It is then more simple and secure with a third party like Google.
       </p>
+      <br />
+      <p>Get access with another device</p>
+      <br />
+      <nuxt-img src="/qrcode.png" height="80" />
     </div>
   </div>
 </template>
