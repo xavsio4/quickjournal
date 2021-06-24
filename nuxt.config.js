@@ -77,13 +77,13 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     meta: false,
-    /*  meta: {
+    meta: {
       mobileApp: true,
       mobileAppIOS: true,
       appleStatusBarStyle: 'default',
       description: 'Record your days easily',
       nativeUI: true,
-    },  */
+    },
     icon: false,
     manifest: {
       lang: 'en',
