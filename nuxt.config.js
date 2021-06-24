@@ -49,7 +49,7 @@ export default {
     '@nuxtjs/moment',
     // https://firebase.nuxtjs.org/
     '@nuxtjs/firebase',
-    '@nuxt/image',
+    //'@nuxt/image',
   ], // modules
 
   firebase: {
