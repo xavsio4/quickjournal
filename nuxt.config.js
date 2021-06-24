@@ -79,7 +79,7 @@ export default {
     // meta: false,
     meta: {
       mobileApp: true,
-      mobileAppIOS: true,
+      // mobileAppIOS: true,
       appleStatusBarStyle: 'default',
       description: 'Record your days easily',
       // nativeUI: true,
