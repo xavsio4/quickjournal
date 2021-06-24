@@ -50,7 +50,7 @@
         <!--  <button class="bg-gray-200 py-2 px-4 rounded" type="submit">
           Login
         </button> -->
-        <sign-in />
+        <client-only><sign-in /></client-only>
       </div>
     </form>
     <div class="text-left p-10 w-full">
