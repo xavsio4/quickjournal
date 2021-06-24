@@ -82,7 +82,7 @@ export default {
       mobileAppIOS: true,
       appleStatusBarStyle: 'default',
       description: 'Record your days easily',
-      nativeUI: true,
+      // nativeUI: true,
     },
     icon: false,
     manifest: {
