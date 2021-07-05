@@ -66,7 +66,7 @@
       <br />
       <p>Get access with another device</p>
       <br />
-      <nuxt-img src="/qrcode.png" height="80" />
+      <nuxt-img src="/qrcode.png" width="80" />
     </div>
   </div>
 </template>

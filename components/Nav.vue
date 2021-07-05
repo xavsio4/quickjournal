@@ -6,6 +6,12 @@
           class="h-10 w-17 mr-2"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 356.52174 61.73913"
+          v-anime="{
+            rotate: 360,
+            duration: 1500,
+            loop: false,
+            delay: 1500,
+          }"
         >
           <defs>
             <style>
@@ -84,7 +90,7 @@
           About
         </NuxtLink>
         <NuxtLink
-          v-if="currentUser"
+          v-if="currentUser !== false"
           to="/journal"
           class="
             no-underline
@@ -134,7 +140,7 @@
       </div>
       <div>
         <NuxtLink
-          v-if="!currentUser"
+          v-if="currentUser === false"
           to="/login"
           class="
             no-underline

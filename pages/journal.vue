@@ -25,6 +25,7 @@
             class="mb-3"
             v-model="entry_date"
             type="date"
+            :lang="lang"
           ></date-picker>
         </div>
         <div class="relative">
@@ -54,71 +55,79 @@
       </form>
     </div>
     <!-- list -->
-    <div
-      v-for="(item, index) in journalEntries"
-      :key="item.id"
-      :index="index"
-      class="
-        max-w-sm
-        mx-auto
-        bg-white
-        rounded-xl
-        shadow-md
-        flex flex-initial
-        mb-1
-        w-md
-      "
-    >
-      <!-- Here goes the list of done things -->
-      <div class="w-14 p-6">
-        <span class="text-gray-800">
-          {{ $moment.unix(item.data.entry_date.seconds).format('DD/MM') }}</span
-        >
-        <div class="font-light text-gray-800 -mt-2">
-          {{ $moment.unix(item.data.entry_date.seconds).format('YYYY') }}
+    <div>
+      <div
+        v-for="(item, index) in journalEntries"
+        :key="item.id"
+        :index="index"
+        class="
+          journalentry
+          max-w-sm
+          mx-auto
+          bg-white
+          rounded-xl
+          shadow-md
+          flex flex-initial
+          mb-1
+          w-md
+        "
+      >
+        <!-- Here goes the list of done things -->
+        <div class="w-14 p-6">
+          <span class="text-gray-400">
+            {{
+              $moment.unix(item.data.entry_date.seconds).format('DD/MM')
+            }}</span
+          >
+          <div class="font-light text-gray-400 -mt-2">
+            {{ $moment.unix(item.data.entry_date.seconds).format('YYYY') }}
+          </div>
         </div>
-      </div>
 
-      <div class="text-gray-800 flex-grow p-6">
-        {{ item.data.entry }}
-        <span v-if="edit === index">
-          <date-picker v-model="edit_date" type="date"></date-picker>
-          <textarea
-            v-model="whatedit"
-            class="p-2 border border-gray-200 rounded"
-            cols="32"
-          ></textarea>
-        </span>
-      </div>
-      <div class="bg-pink-200 flex-grow-0 w-9 rounded-xl rounded-l-none p-2">
-        <!-- {{ item.entry_type }} -->
-        <a
-          class="cursor-pointer text-red-400"
-          @click="deleteEntry(item.id, index)"
-        >
-          <TrashIcon size="1.4x" class="mb-4"
-        /></a>
-        <a
-          class="cursor-pointer"
-          v-if="edit !== index"
-          @click="
-            edit = index
-            whatedit = item.data.entry
-            edit_date = new Date(
-              $moment.unix(item.data.entry_date.seconds).format('YYYY-MM-DD')
-            )
-          "
-          ><PencilIcon size="1.4x" class=""
-        /></a>
-        <a v-if="edit === index" class="cursor-pointer" @click="edit = null"
-          ><BanIcon size="1.2x" class="text-red-600 ring-red-600 mt-3"
-        /></a>
-        <a
-          v-if="edit === index"
-          class="cursor-pointer"
-          @click="editEntry(item.id, index)"
-          ><CheckIcon size="1.2x" class="text-green-600"
-        /></a>
+        <div class="text-gray-800 flex-grow p-6">
+          {{ item.data.entry }}
+          <span v-if="edit === index">
+            <date-picker v-model="edit_date" type="date"></date-picker>
+            <textarea
+              v-model="whatedit"
+              class="p-2 border border-gray-200 rounded"
+              cols="32"
+            ></textarea>
+          </span>
+        </div>
+        <div class="bg-pink-200 flex-grow-0 w-9 rounded-xl rounded-l-none p-2">
+          <!-- {{ item.entry_type }} -->
+          <a
+            class="cursor-pointer text-red-400"
+            @click="deleteEntry(item.id, index)"
+          >
+            <TrashIcon size="1.4x" class="mb-4"
+          /></a>
+          <a
+            class="cursor-pointer"
+            v-if="edit !== index"
+            @click="
+              edit = index
+              whatedit = item.data.entry
+              edit_date = new Date(
+                $moment.unix(item.data.entry_date.seconds).format('YYYY-MM-DD')
+              )
+            "
+            ><PencilIcon size="1.4x" title="edit" class=""
+          /></a>
+          <a v-if="edit === index" class="cursor-pointer" @click="edit = null"
+            ><BanIcon
+              size="1.2x"
+              title="delete"
+              class="text-red-600 ring-red-600 mt-3"
+          /></a>
+          <a
+            v-if="edit === index"
+            class="cursor-pointer"
+            @click="editEntry(item.id, index)"
+            ><CheckIcon size="1.2x" class="text-green-600"
+          /></a>
+        </div>
       </div>
     </div>
   </div>
@@ -155,6 +164,13 @@ export default {
       journalEntries: [],
       docEntries: [],
       edit: null, // gets the index for edition
+      lang: {
+        // datepicker settings
+        formatLocale: {
+          firstDayOfWeek: 1,
+        },
+        monthBeforeYear: false,
+      },
     }
   },
   computed: {
@@ -223,7 +239,6 @@ export default {
           })
       } catch (e) {
         this.$toast.error('Ooops, something went wrong ...like...' + e)
-        return
       }
 
       this.journalEntries.unshift({
