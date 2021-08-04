@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  middleware: 'authenticated',
   computed: {
     currentUser() {
       return this.$store.state.user
