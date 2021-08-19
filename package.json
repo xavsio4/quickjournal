@@ -21,7 +21,7 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "core-js": "^3.15.0",
     "firebase": "^8.6.8",
-    "firebaseui": "^4.8.0",
+    "firebaseui": "^5.0.0",
     "luxon": "^1.27.0",
     "nuxt": "^2.15.3",
     "nuxt-hero-icons": "github:whardier/nuxt-hero-icons",
