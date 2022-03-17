@@ -43,6 +43,6 @@
     "eslint-plugin-vue": "^7.7.0",
     "nuxt-animejs": "^1.2.1",
     "postcss": "^8.3.5",
-    "prettier": "^2.2.1"
+    "prettier": "^2.6.0"
   }
 }
